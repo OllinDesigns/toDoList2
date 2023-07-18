@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do List</title>
+    <script src="https://unpkg.com/htmx.org@latest/dist/htmx.js"></script>
+    <!-- You can add any necessary script tags here, like for React or other libraries -->
+    <script src="link/to/jquery"></script>
+    <link href="/styles.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <div id="todo-table">
+        <form hx-post="/todo" hx-trigger="submit">
+          <input type="text" name="item" placeholder="Add new item" required />
+          <button type="submit">Add Item</button>
+        </form>
+        <ul>
+          <li hx-get="/todo" hx-trigger="load">item1</li>
+        </ul>
+      </div>
+      
+</body>
+</html>

@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const TaskList_1 = require("../core/domain/entities/TaskList");
+const TaskRepository_1 = require("../infrastructure/repositories/TaskRepository");
+const taskRepository = new TaskRepository_1.TaskRepository();
+const taskList = new TaskList_1.TaskList();
+taskList.addTask('Buy groceries');
+const tasks = taskList.getTasks();
+console.log(tasks);
+taskList.addTask('play gitar');
+taskList.addTask('cook dinner');
+console.log(taskList);
