@@ -1,24 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To do List</title>
     <script src="https://unpkg.com/htmx.org@latest/dist/htmx.js"></script>
-    <!-- You can add any necessary script tags here, like for React or other libraries -->
-    <script src="link/to/jquery"></script>
-    <link href="/styles.css" rel="stylesheet" type="text/css"/>
-</head>
-<body>
+    <link href="/styles.css" rel="stylesheet" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Montserrat:wght@200;300;400;500&family=Roboto:wght@100;300;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="boxrowx3" id="purpleollin">
+      <img
+        src="/ollinmastermedicrepnglow.png"
+        alt="this is the Ollin"
+        id="purpleollin"
+      />
+    </div>
     <div id="todo-table">
-        <form hx-post="/todo" hx-trigger="submit">
-          <input type="text" name="item" placeholder="Add new item" required />
-          <button type="submit">Add Item</button>
-        </form>
-        <ul>
-          <li hx-get="/todo" hx-trigger="load">item1</li>
-        </ul>
-      </div>
-      
-</body>
+      <h1>To do list App</h1>
+
+      <p class="center">By OllinDesigns</p>
+    </div>
+    <br />
+    <div id="todo-table">
+      <form hx-post="/todo" hx-target="#todo-list" onsubmit="return false;">
+        <input type="text" name="item" placeholder="Add new item" required />
+        <button type="submit">Add Item</button>
+      </form>
+
+      <p>check the item once the task is completed</p>
+      <ul id="todo-list" hx-get="/todo">
+        Items will be added here dynamically
+      </ul>
+    </div>
+
+    <script>
+      // Function to clear the form input after successful form submission
+      function clearForm() {
+        document.querySelector('#todo-table input[name="item"]').value = "";
+      }
+
+      function createTaskItem(task) {
+        const listItem = document.createElement("li");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.completed;
+
+        checkbox.addEventListener("change", () => {
+          markTaskAsCompleted(task._id, checkbox.checked); // Mark the task as completed when the checkbox changes
+        });
+
+        listItem.appendChild(checkbox);
+        listItem.appendChild(document.createTextNode(task.item));
+
+        // Add a Delete button for each task item
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.setAttribute("id", "delete");
+        deleteButton.addEventListener("click", () => {
+          deleteItem(task._id); // Pass the task's ID for deletion
+        });
+        listItem.appendChild(deleteButton);
+
+        return listItem;
+      }
+
+      // Function to update the todo list after successful form submission
+      function updateTodoList() {
+        const list = document.getElementById("todo-list");
+        fetch("/todo")
+          .then((response) => response.json())
+          .then((data) => {
+            list.innerHTML = ""; // Clear the existing list
+
+            // Reverse the order of the data array to show the last added items first
+            data.reverse().forEach((task) => {
+              const listItem = createTaskItem(task);
+              list.appendChild(listItem);
+            });
+            clearForm();
+          })
+          .catch((error) => console.error("Error fetching todo list:", error));
+      }
+
+      // Front-end code to delete a task item
+      function deleteItem(itemId) {
+        console.log("Delete button clicked for task ID:", itemId); // For debugging purposes
+
+        fetch(`/todo/${itemId}`, {
+          method: "DELETE",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Deleted item:", data); // Log the deleted item
+            updateTodoList(); // Update the todo list after successful deletion
+          })
+          .catch((error) => {
+            console.error("Error deleting item:", error);
+          });
+      }
+
+      // Front-end code to mark a task as completed
+      function markTaskAsCompleted(taskId, completed) {
+        console.log("Task ID:", taskId); // Log the task ID
+        console.log("Completed:", completed); // Log the completed status
+
+        const payload = {
+          _id: taskId,
+          completed: completed,
+        };
+
+        fetch(`/todo/${taskId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload), // Make sure the payload matches the ITodoItem interface
+        })
+          .then((response) => response.json())
+          .then((updatedTask) => {
+            console.log("Task marked as completed:", updatedTask);
+            updateTodoList(); // Update the todo list after successful completion
+          })
+          .catch((error) => {
+            console.error("Error marking task as completed:", error);
+          });
+      }
+
+      // Listen for successful HTMX form submission and update the todo list
+      document.addEventListener("htmx:afterSwap", updateTodoList);
+
+      // Initial update of the todo list on page load
+      updateTodoList();
+    </script>
+  </body>
 </html>

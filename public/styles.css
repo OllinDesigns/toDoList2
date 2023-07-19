@@ -1,70 +1,134 @@
-body{
-    background: #0d1521;
-    font-family: tahoma;
-    color: #989898;
+body {
+  background: #0d1521;
+  font-family: tahoma;
+  color: #989898;
 }
 
-#todo-table{
-    position: relative;
-    width: 95%;
-    background: #090d13;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
+p {
+  font-family: "Roboto", sans-serif;
+  color: #634fb9;
+  font-size: 1.5em;
 }
 
-#todo-table form:after{
-    margin: 0;
-    content: '';
-    display: block;
-    clear: both;
+.center {
+  text-align: center;
 }
 
-input[type="text"]{
-    width: 70%;
-    padding: 20px;
-    background:#181c22;
-    border: 0;
-    float: left;
-    font-size: 20px;
-    color: #989898;
+#todo-table {
+  position: relative;
+  width: 95%;
+  background: #090d13;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-button{
-    padding: 20px;
-    width: 30%;
-    float: left;
-    background: #23282e;
-    border: 0;
-    box-sizing: border-box;
-    color: #fff;
-    cursor: pointer;
-    font-size: 20px;
+#todo-table form:after {
+  margin: 0;
+  content: "";
+  display: block;
+  clear: both;
 }
 
-ul{
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+input[type="text"] {
+  width: 70%;
+  padding: 20px;
+  background: #181c22;
+  border: 0;
+  float: left;
+  font-size: 20px;
+  color: #989898;
 }
 
-li{
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    font-family: arial;
-    font-size: 20px;
-    cursor: pointer;
-    letter-spacing: 1px;
+button {
+  padding: 20px;
+  width: 30%;
+  float: left;
+  background: #42357b;
+  /* background: #23282e; */
+  border: 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-size: 20px;
+  margin-top: 10px;
 }
 
-li:hover{
-    text-decoration: line-through;
-    background: rgba(0,0,0,0.2);
+#delete {
+  padding: 8px;
+  width: 10%;
+  float: left;
+  background: #42357b;
+  border: 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-size: 20px;
+  margin-left: 200px;
 }
 
-h1{
-    background: url(/logo.png) no-repeat center;
-    margin-bottom: 0;
-    text-indent: -10000px;
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: arial;
+  font-size: 20px;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+li:hover {
+  text-decoration: line-through;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+#todo-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px; 
+}
+
+
+#todo-list input[type="checkbox"] {
+  margin-right: 22px; 
+}
+
+h1 {
+  font-family: "Montserrat", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 3em;
+  color: #42357b;
+  font-weight: 600;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  text-align: center;
+}
+
+#purpleollin {
+  margin-top: 20px;
+  text-align: center;
+  background-color: 0d0f13;
+}
+#purpleollin img {
+  width: 10%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #purpleollin img {
+    animation: purpleollin-spin infinite 150s linear;
+  }
+}
+
+@keyframes purpleollin-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
